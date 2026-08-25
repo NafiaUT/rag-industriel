@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: white;
+            /* Ensure the iframe has a white background */
+        }
+
+        :root {
+            --primary-color: #2a6df4;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+            --light-text: #666;
+            --bg-color: #fff;
+            --border-color: #eaeaea;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .bg-light {
+            background-color: var(--secondary-color);
+        }
+
+        /* Navigation */
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-color);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li a {
+            text-decoration: none;
+            color: var(--text-color);
+            margin-left: 2rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu li a:hover {
+            color: var(--primary-color);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Section Hero */
+        #hero {
+            padding-top: 120px;
+            /* Pour compenser la navbar fixe */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(42, 109, 244, 0.1) 0%, rgba(248, 249, 250, 0.5) 100%);
+        }
+
+        .hero-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .hero-text h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--light-text);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #1a56c7;
+        }
+
+        /* Sections générales */
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--border-color);
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            width: 100%;
+        }
+
+        .timeline-item:nth-child(odd) {
+            padding-right: calc(50% + 30px);
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            padding-left: calc(50% + 30px);
+        }
+
+        .timeline-marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            top: 15px;
+            left: 50%;
+            margin-left: -10px;
+            z-index: 1;
+        }
+
+        .timeline-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .timeline-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Projets */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card h3 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-date {
+            font-weight: 600;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .project-card p {
+            margin-bottom: 0.8rem;
+        }
+
+        .project-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Compétences */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .skill-category h3 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .skill-category ul {
+            list-style: none;
+        }
+
+        .skill-category li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .skill-category li:last-child {
+            border-bottom: none;
+        }
+
+        /* Contact */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3,
+        .contact-form h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .contact-info a {
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            color: var(--primary-color);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .contact-form button {
+            width: 100%;
+        }
+
+        /* Pied de page */
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                margin-bottom: 2rem;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) {
+                padding: 0 0 0 60px;
+                text-align: left;
+            }
+
+            .timeline-marker {
+                left: 30px;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: var(--bg-color);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: var(--shadow);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-text h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo">NK</a>
+            <ul class="nav-menu">
+                <li><a href="#hero">Accueil</a></li>
+                <li><a href="#about">À propos</a></li>
+                <li><a href="#education">Formation</a></li>
+                <li><a href="#experience">Expérience</a></li>
+                <li><a href="#projects">Projets</a></li>
+                <li><a href="#skills">Compétences</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section Héro -->
+    <section id="hero" class="section">
+        <div class="hero-container">
+            <div class="hero-text">
+                <h1>Nafia Khatim</h1>
+                <h2>Étudiant en M2 Informatique | Systèmes Intelligents</h2>
+                <a href="#contact" class="btn">Me Contacter</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section À propos -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">À propos de Moi</h2>
+            <div class="about-content">
+                <p>Actuellement étudiant en Master 2 Informatique, je suis passionné par les nouvelles technologies et
+                    les domaines de l'intelligence artificielle et des systèmes intelligents. Mon parcours académique
+                    m'a permis de découvrir divers aspects du développement logiciel et de l'analyse de données. Je suis
+                    à la recherche d'un stage de 6 mois pour appliquer mes connaissances théoriques, acquérir de
+                    l'expérience professionnelle dans un environnement dynamique et contribuer à des projets innovants.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Formation -->
+    <section id="education" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Formation</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Master en Informatique – Systèmes Intelligents et Applications</h3>
+                        <p class="timeline-date">2024 – Présent</p>
+                        <p>Université de Tours, France</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Licence en Informatique</h3>
+                        <p class="timeline-date">2020 – 2024</p>
+                        <p>Université de Tours, France & Université Mohamed Boudiaf, Algérie</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Baccalauréat en Sciences Expérimentales</h3>
+                        <p class="timeline-date">2020</p>
+                        <p>Algérie</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Expérience -->
+    <section id="experience" class="section">
+        <div class="container">
+            <h2 class="section-title">Expériences et stages</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Stage de Master 1</h3>
+                        <p class="timeline-date">2024 - 2025</p>
+                        <p>Université de Tours</p>
+                        <p>Projet de fin de Master 1 : Mise en place d’un système intelligent avec le RAG (Retrieval
+                            Augmented Generation).</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <h3>Stage de Licence</h3>
+                        <p class="timeline-date">2024</p>
+                        <p>Université de Tours</p>
+                        <p>Développement d'une interface pour une application de traitement de données.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Projets -->
+    <section id="projects" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Projets</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Système RAG avec n8n et Data.gouv</h3>
+                    <p class="project-date">Stage de Master 1 - 2024-2025</p>
+                    <p>Ce projet consistait à concevoir un système intelligent utilisant le RAG (Retrieval Augmented
+                        Generation) pour interroger des données publiques du site Data.gouv.fr.</p>
+                    <p><strong>Technologies utilisées :</strong> n8n (automatisation), Python, Bases de données
+                        vectorielles, Modèles LLM (Large Language Model) pré-entraînés.</p>
+                    <p><strong>Fonctionnement :</strong> Le système extrait automatiquement les données du portail
+                        Data.gouv, les traite, les stocke dans une base de données vectorielle pour une recherche
+                        sémantique efficace. Lorsqu'un utilisateur pose une question, le système la transforme en
+                        requête vectorielle, récupère les documents ou fragments de données les plus pertinents, puis
+                        transmet ces informations enrichies à un LLM. Ce dernier génère alors une réponse claire et
+                        contextualisée à la requête de l'utilisateur.</p>
+                </div>
+                <div class="project-card">
+                    <h3>Modèle de Décision Médicale à partir de Bilans Biologiques</h3>
+                    <p class="project-date">Projet Personnel / Académique</p>
+                    <p>Ce projet visait à analyser des données de bilans d'examens biologiques pour concevoir un modèle
+                        capable de recommander des décisions médicales (par exemple, s'il est nécessaire ou non de
+                        prescrire un traitement ou de faire des examens complémentaires).</p>
+                    <p><strong>Technologies utilisées :</strong> Python, Pandas, Scikit-learn, Machine Learning
+                        (Classification).</p>
+                    <p><strong>Approche :</strong> Les données brutes des bilans ont été nettoyées et prétraitées. Des
+                        algorithmes d'apprentissage supervisé ont été entraînés sur un ensemble de données étiquetées
+                        (bilan -> décision). Le modèle final est capable d'analyser un nouveau bilan et de prédire la
+                        probabilité de différentes actions médicales, fournissant un outil d'aide à la décision pour les
+                        professionnels de santé.</p>
+                </div>
+                <div class="project-card">
+                    <h3>Site Web pour l'Enseignement à Distance</h3>
+                    <p class="project-date">Projet de Fin de Licence - 2023</p>
+                    <p>Réalisation d'un site web dynamique pour une plateforme d'enseignement à distance, intégrant des
+                        fonctionnalités de gestion de cours, d'élèves et d'évaluations.</p>
+                    <p><strong>Technologies utilisées :</strong> HTML, CSS, JavaScript, PHP, MySQL.</p>
+                    <p><strong>Fonctionnalités :</strong> Interface utilisateur pour les étudiants et les enseignants,
+                        gestion des cours, dépôt de devoirs, systèmes de notes.</p>
+                </div>
+                <div class="project-card">
+                    <h3>Plateforme d'Examens en Ligne</h3>
+                    <p class="project-date">Projet Universitaire - 2022</p>
+                    <p>Développement d'une application web permettant la création, la passation et l'évaluation
+                        d'examens en ligne.</p>
+                    <p><strong>Technologies utilisées :</strong> HTML, CSS, JavaScript, PHP, MySQL.</p>
+                    <p><strong>Fonctionnalités :</strong> Génération aléatoire de questions, chronométrage, correction
+                        automatique des QCM, suivi des résultats.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Compétences -->
+    <section id="skills" class="section">
+        <div class="container">
+            <h2 class="section-title">Compétences</h2>
+            <div class="skills-container">
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> Langages de Programmation</h3>
+                    <ul>
+                        <li>Python</li>
+                        <li>Java</li>
+                        <li>Node.js</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-database"></i> Bases de Données</h3>
+                    <ul>
+                        <li>SQL</li>
+                        <li>NoSQL</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-tools"></i> Outils & DevOps</h3>
+                    <ul>
+                        <li>Git</li>
+                        <li>Docker</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-bolt"></i> Automatisation / API</h3>
+                    <ul>
+                        <li>n8n</li>
+                        <li>RAG</li>
+                        <li>Extraction/ Traitement de Données</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-brain"></i> IA / Cloud</h3>
+                    <ul>
+                        <li>Machine Learning</li>
+                        <li>AWS</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-users"></i> Compétences Interpersonnelles</h3>
+                    <ul>
+                        <li>Capacité d'adaptation</li>
+                        <li>Travail collaboratif</li>
+                        <li>Apprentissage rapide</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section id="contact" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Informations</h3>
+                    <p><i class="fas fa-envelope"></i> <a
+                            href="mailto:nafia.khatim@etu.univ-tours.fr">nafia.khatim@etu.univ-tours.fr</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+33751359522">07 51 35 95 22</a></p>
+                    <p><i class="fas fa-map-marker-alt"></i> Tours, France</p>
+                    <p><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/nafiâ-khatim-101843251"
+                            target="_blank">LinkedIn</a></p>
+                </div>
+                <form id="contactForm" class="contact-form">
+                    <h3>Envoyez-moi un message</h3>
+                    <input type="text" name="name" placeholder="Votre Nom" required>
+                    <input type="email" name="email" placeholder="Votre Email" required>
+                    <textarea name="message" placeholder="Votre Message" rows="5" required></textarea>
+                    <button type="submit" class="btn">Envoyer</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pied de page -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Nafia Khatim. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Gestion du menu hamburger
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', function () {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Fermer le menu lorsqu'on clique sur un lien
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Animation au scroll pour les éléments de la timeline et des projets
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Observer une seule fois
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-item, .project-card').forEach(item => {
+            // Ajouter la classe 'hidden' par défaut via CSS si souhaité
+            observer.observe(item);
+        });
+
+        // Gestion du formulaire de contact (simulé)
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                // Ici, vous pouvez ajouter la logique pour envoyer le formulaire (ex: via EmailJS ou un backend)
+                alert('Merci pour votre message ! (Ceci est une simulation)');
+                contactForm.reset(); // Réinitialise le formulaire
+            });
+        }
+
+        // Effet de défilement fluide pour les ancres
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70, // Compenser la hauteur de la navbar fixe
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    });
+
+
+</script>
+</body>
+
+</html>

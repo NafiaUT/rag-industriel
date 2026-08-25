@@ -1,0 +1,31 @@
+# Environment variables & secrets (CRITICAL FOR SECURITY)
+.env
+.env.local
+
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Processed data & large vector index files
+data/processed/*.index
+data/processed/*.pkl
+data/processed/*.json
+
+# Raw PDF files uploaded locally
+data/raw/*.pdf
+!data/raw/.gitkeep
+
+# IDEs & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
