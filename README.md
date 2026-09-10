@@ -1,26 +1,8 @@
-# 🏭 Assistant Documentaire Intelligent — RAG Industriel Avancé
+# 🏭 Assistant Documentaire Intelligent - RAG Industriel
 
 > **Application RAG (Retrieval-Augmented Generation) de niveau Production pour l'analyse de documents techniques et industriels.**
 > 
 > *Projet conçu avec **PyMuPDF**, **FAISS**, **BM25**, **Cross-Encoder Reranking**, **Gemini 3.6 Flash** et **Streamlit**.*
-
----
-
-## 🌟 Points Forts du Projet
-
-* **📄 Parsing & Tableaux Markdown** : Extraction haute fidélité avec **PyMuPDF** (`pymupdf`) capable de convertir automatiquement les tableaux complexes de maintenance et fiches techniques au format Markdown.
-* **✂️ Découpage Récursif Sémantique** : Chunking récursif respectant la hiérarchie des paragraphes et des phrases (`\n\n`, `\n`, `. `, `, `) pour éviter les coupures arbitraires.
-* **🎯 Recherche Hybride (Dense + Sparse)** :
-  * **Dense (Sémantique)** : Index vectoriel **FAISS** alimenté par `paraphrase-multilingual-MiniLM-L12-v2`.
-  * **Sparse (Mots-clés exacts)** : Index **BM25** (`rank-bm25`) pour capturer avec 100% de précision les références de pièces, normes ISO et codes d'erreur.
-* **⚡ Fusion RRF (Reciprocal Rank Fusion)** : Combinaison des rangs vectoriels et mots-clés via la formule $RRF(d) = \sum \frac{1}{60 + r(d)}$.
-* **⚖️ Reranking par Cross-Encoder** : Ré-ordonnancement fin des candidats avec `cross-encoder/ms-marco-MiniLM-L-6-v2` pour sélectionner les 7 meilleurs extraits.
-* **💬 Mémoire Multi-tours (Condense Question)** : Reformulation automatique des questions de suivi (*"Et quelle est sa température max ?"*) en questions autonomes basées sur le contexte récent.
-* **🖥️ Interface Streamlit Autonome** :
-  * Téléversement de nouveaux PDF en 1 clic (`st.file_uploader`).
-  * Ré-indexation 1-clic depuis la barre latérale.
-  * Gestion du corpus (visualisation et suppression de documents).
-  * Affichage des sources avec scores du Reranker.
 
 ---
 
